@@ -11,6 +11,7 @@
   "dependencies": {
     "inngest": "^3.43.1",
     "next": "15.5.4",
+    "pg": "^8.16.3",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },

@@ -1,4 +1,9 @@
 import { inngest } from "./client";
+import { Pool } from "pg";
+
+const pool = new Pool({
+    connectionString: process.env.NEON_DB_URL,
+});
 
 export const helloFn = inngest.createFunction(
   { id: "hello-fn" },
@@ -7,6 +12,13 @@ export const helloFn = inngest.createFunction(
     console.log("🎉 Received signup event:", event);
     console.log("📝 User message:", event.data.user);
     console.log("⏰ Event timestamp:", new Date().toISOString());
+
+    const result = await pool.query(
+    "INSERT INTO signups(user_name, created_at) VALUES($1, NOW())",
+    [event.data.user]
+    );
+
+    console.log("🔄 Inserted signup event into database:", result);
     
     // Mock processing
     console.log("🔄 Processing signup event...");
